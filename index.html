@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Reminder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login">
+  <h2>🔒 Βάλε PIN</h2>
+
+  <div class="pin-row">
+    <input type="password" id="pinInput" placeholder="PIN"
+           inputmode="numeric" length="8">
+    <button onclick="checkPin()">Είσοδος</button>
+  </div>
+</div>
+
+
+<div id="app" style="display:none;">
+  <h1>Mini Reminder</h1>
+
+  <div class="input-area">
+    <input type="text" id="noteInput" placeholder="Γράψε υπενθύμιση...">
+    <button onclick="addNote()">+</button>
+  </div>
+
+  <ul id="notesList"></ul>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
