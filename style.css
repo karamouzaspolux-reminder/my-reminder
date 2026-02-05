@@ -60,3 +60,28 @@ li button {
   font-size: 14px;
   padding: 4px 6px;
 }
+
+/* ===== MOBILE PIN SIZE ===== */
+
+#pinInput {
+  width: 100%;
+  height: 55px;
+  font-size: 22px;
+  box-sizing: border-box;
+}
+
+
+.pin-row {
+  display: flex;
+  gap: 10px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.pin-row {
+  width: 100%;
+  max-width: 500px;   /* προαιρετικό για desktop */
+}
+
