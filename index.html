@@ -1,34 +1,72 @@
 <!DOCTYPE html>
+<!-- Δήλωση HTML5 -->
+
 <html lang="el">
+<!-- Ελληνική γλώσσα -->
+
 <head>
   <meta charset="UTF-8">
+  <!-- Υποστήριξη ελληνικών χαρακτήρων -->
+
   <title>Mini Reminder</title>
+  <!-- Τίτλος εφαρμογής -->
+
   <link rel="stylesheet" href="style.css">
+  <!-- Σύνδεση CSS -->
 </head>
+
 <body>
 
+<!-- ================= LOGIN SCREEN ================= -->
+
 <div id="login">
+  <!-- Περιοχή εισαγωγής PIN -->
+
   <h2>🔒 Βάλε PIN</h2>
 
   <div class="pin-row">
-    <input type="password" id="pinInput" placeholder="PIN"
-           inputmode="numeric" length="8">
+
+    <input type="password"
+           id="pinInput"
+           placeholder="PIN"
+           inputmode="numeric"
+           length="8">
+    <!-- Πεδίο PIN -->
+
     <button onclick="checkPin()">Είσοδος</button>
+    <!-- Κλήση JavaScript ελέγχου PIN -->
+
   </div>
 </div>
 
 
+<!-- ================= MAIN APP ================= -->
+
 <div id="app" style="display:none;">
+  <!-- Κύρια εφαρμογή — αρχικά κρυφή -->
+
   <h1>Mini Reminder</h1>
 
   <div class="input-area">
-    <input type="text" id="noteInput" placeholder="Γράψε υπενθύμιση...">
+
+    <input type="text"
+           id="noteInput"
+           placeholder="Γράψε υπενθύμιση...">
+    <!-- Πεδίο νέας εγγραφής -->
+
     <button onclick="addNote()">+</button>
+    <!-- Προσθήκη υπενθύμισης -->
+
   </div>
 
   <ul id="notesList"></ul>
+  <!-- Λίστα υπενθυμίσεων -->
+
 </div>
 
+
+<!-- Σύνδεση JavaScript -->
 <script src="app.js"></script>
+
 </body>
 </html>
