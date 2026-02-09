@@ -11,7 +11,7 @@
 
 body {
   font-family: Arial;
-  text-align: center;
+  text-align: left;
   margin-top: 40px;
 }
 
@@ -64,21 +64,92 @@ li button {
 
 <body>
 
-<h2>Organizer — Υπενθυμίσεις</h2>
-
-<!-- ===== INPUT ===== -->
-<input id="reminderInput" placeholder="Γράψε υπενθύμιση">
+<!-- ================= LOGIN SCREEN ================= -->
 
 
-<!-- ===== BUTTON ===== -->
-<button onclick="addReminder()">+</button>
+<div id="login">
+  <!-- Περιοχή εισαγωγής PIN -->
 
-<!-- ===== ΛΙΣΤΑ ===== -->
-<ul id="list"></ul>
+  <h2>🔒 Βάλε PIN</h2>
+
+  <div class="pin-row">
+
+    <input type="password"
+           id="pinInput"
+           placeholder="PIN"
+           inputmode="numeric"
+           maxlength="8">
+    <!-- Πεδίο PIN -->
+
+    <button onclick="checkPin()">Είσοδος</button>
+    <!-- Κλήση JavaScript ελέγχου PIN -->
+
+  </div>
+</div>
 
 
+<!--...................................................-->
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="app" style="display:none;">
+  <!-- Κύρια εφαρμογή — αρχικά κρυφή -->
+
+  <h2>Organizer — Υπενθυμίσεις</h2>
+
+  <div class="input-area">
+      <!-- ===== INPUT ===== -->
+      <input id="reminderInput" placeholder="Γράψε υπενθύμιση">
+
+
+      <!-- ===== BUTTON ===== -->
+      <button onclick="addReminder()">+</button>
+  </div>    
+
+  <!-- ===== ΛΙΣΤΑ ===== -->
+  <ul id="list"></ul>
+</div>
 
 <script>
+
+// ================= PIN CONSTANT =================
+const CORRECT_PIN = "05031927";
+// Σταθερά PIN
+// VBA: Const CORRECT_PIN = "05031927"
+
+
+// ================= PIN CHECK =================
+
+//  ΧΤΙΣΙΜΟ ΤΗΣ ΛΙΣΤΑΣ
+function loadNotes() {
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) => showItem(text, i));
+}
+
+function checkPin() {
+  const input = document.getElementById("pinInput").value;
+  // Διαβάζει τιμή από input
+  // VBA: input = Me.txtPIN.Value
+
+  if (input === CORRECT_PIN) {
+    document.getElementById("login").style.display = "none";
+    // Απόκρυψη login panel
+    // VBA: Me.pnlLogin.Visible = False
+
+    document.getElementById("app").style.display = "block";
+    // Εμφάνιση κύριας εφαρμογής
+    // VBA: Me.pnlApp.Visible = True
+
+    loadNotes();
+    // Refresh δεδομένων
+    // VBA: Me.Requery
+  } else {
+    alert("Λάθος PIN");
+    // VBA: MsgBox "Λάθος PIN"
+  }
+}
+
 
 
 /* ==========================================
@@ -100,10 +171,9 @@ window.onload = function() {    // Συνάρτηση που εκτελείτα�
 
     reminders = JSON.parse(saved);    //  Μετατροπή των δεδομένων σε πίνακα
 
-    // ξαναχτίζουμε τη λίστα
-    reminders.forEach(showItem);     //  Εμφάνιση της κάθε υπενθύμισης
-  };
-}
+    
+  }
+};
 
 
 /* ==========================================
