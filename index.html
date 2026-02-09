@@ -1,72 +1,294 @@
 <!DOCTYPE html>
-<!-- Δήλωση HTML5 -->
-
 <html lang="el">
-<!-- Ελληνική γλώσσα -->
 
 <head>
-  <meta charset="UTF-8">
-  <!-- Υποστήριξη ελληνικών χαρακτήρων -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Organizer</title>
 
-  <title>Mini Reminder</title>
-  <!-- Τίτλος εφαρμογής -->
+<style>
 
-  <link rel="stylesheet" href="style.css">
-  <!-- Σύνδεση CSS -->
+/* ===== ΒΑΣΙΚΗ ΕΜΦΑΝΙΣΗ ===== */
+
+body {
+  font-family: Arial;
+  text-align: center;
+  margin-top: 40px;
+}
+
+input {
+  font-size: 18px;
+  padding: 10px;
+  width: 250px;
+}
+
+button {
+  font-size: 18px;
+  padding: 10px;
+  /* margin-top: 10px; */
+}
+
+/* Λίστα υπενθυμίσεων */
+ul {
+  margin-top: 25px;
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  font-size: 18px;
+  margin: 5px;
+  background: #eef;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+li button {
+  width: 36px;
+  height: 36px;
+
+  font-size: 16px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+
+</style>
+
 </head>
 
 <body>
 
-<!-- ================= LOGIN SCREEN ================= -->
+<h2>Organizer — Υπενθυμίσεις</h2>
 
-<div id="login">
-  <!-- Περιοχή εισαγωγής PIN -->
-
-  <h2>🔒 Βάλε PIN</h2>
-
-  <div class="pin-row">
-
-    <input type="password"
-           id="pinInput"
-           placeholder="PIN"
-           inputmode="numeric"
-           length="8">
-    <!-- Πεδίο PIN -->
-
-    <button onclick="checkPin()">Είσοδος</button>
-    <!-- Κλήση JavaScript ελέγχου PIN -->
-
-  </div>
-</div>
+<!-- ===== INPUT ===== -->
+<input id="reminderInput" placeholder="Γράψε υπενθύμιση">
 
 
-<!-- ================= MAIN APP ================= -->
+<!-- ===== BUTTON ===== -->
+<button onclick="addReminder()">+</button>
 
-<div id="app" style="display:none;">
-  <!-- Κύρια εφαρμογή — αρχικά κρυφή -->
-
-  <h1>Mini Reminder</h1>
-
-  <div class="input-area">
-
-    <input type="text"
-           id="noteInput"
-           placeholder="Γράψε υπενθύμιση...">
-    <!-- Πεδίο νέας εγγραφής -->
-
-    <button onclick="addNote()">+</button>
-    <!-- Προσθήκη υπενθύμισης -->
-
-  </div>
-
-  <ul id="notesList"></ul>
-  <!-- Λίστα υπενθυμίσεων -->
-
-</div>
+<!-- ===== ΛΙΣΤΑ ===== -->
+<ul id="list"></ul>
 
 
-<!-- Σύνδεση JavaScript -->
-<script src="app.js"></script>
+
+<script>
+
+
+/* ==========================================
+   ΛΙΣΤΑ ΥΠΕΝΘΥΜΙΣΕΩΝ ΣΤΗ ΜΝΗΜΗ
+========================================== */
+
+let reminders = [];    // Δημιουργία πίνακα, αρχικά άδειο
+
+
+/* ==========================================
+   ΦΟΡΤΩΣΗ ΑΠΟ localStorage ΟΤΑΝ ΑΝΟΙΓΕΙ Η ΣΕΛΙΔΑ
+========================================== */
+
+window.onload = function() {    // Συνάρτηση που εκτελείται με το άνοιγμα της σελίδας
+
+  let saved = localStorage.getItem("myReminders");  //Οι αποθηκευμένες υπενθυμήσεις
+
+  if (saved) {                         // Εάν υπάρχουν
+
+    reminders = JSON.parse(saved);    //  Μετατροπή των δεδομένων σε πίνακα
+
+    // ξαναχτίζουμε τη λίστα
+    reminders.forEach(showItem);     //  Εμφάνιση της κάθε υπενθύμισης
+  };
+}
+
+
+/* ==========================================
+   ΠΡΟΣΘΗΚΗ ΥΠΕΝΘΥΜΙΣΗΣ
+========================================== */
+
+function addReminder() {
+
+  let text = document.getElementById("reminderInput").value;  // Τι γράψαμε
+
+  if (text === "") return;    //  Αν είναι κενό, σταμάτα
+
+  reminders.push(text);      //  Προσθήκη της υπενθύμισης στον πίνακα
+
+  localStorage.setItem("myReminders", JSON.stringify(reminders));  // Αποθήκευση σε μορφή κειμένου
+
+  showItem(text, reminders.length - 1);     //  Εμφάνιση του νέου στοιχείου στη σελίδα
+
+  document.getElementById("reminderInput").value = "";   //  Καθαρισμός input
+}
+
+
+/* ==========================================
+   ΕΜΦΑΝΙΣΗ ΣΤΗ ΛΙΣΤΑ
+========================================== */
+
+function showItem(text, index) {
+
+  let item = document.createElement("li");
+
+  // span(ΕΤΙΚΕΤΤΑ) ΠΟΥ ΚΡΑΤΑ κείμενο
+  let label = document.createElement("span"); // [ΚΕΙΜΕΝΟ] [Χ], span → το κείμενο, button → το Χ
+  label.textContent = text;
+  
+  
+  /*.........................................................................*/
+   
+  // κουμπί Χ
+  let delBtn = document.createElement("button");
+  delBtn.textContent = "X";
+
+  // όταν πατηθεί → διαγραφή
+  delBtn.onclick = function() {
+    deleteReminder(index);
+  };
+  
+  
+  /*.........................................................................*/
+   
+  // κουμπί Επεξεργασίας
+  let editBtn = document.createElement("button");
+  editBtn.textContent = "✏️";
+
+  // όταν πατηθεί → επεξεργασία
+  editBtn.onclick = function() {
+    editReminder(index);
+  };
+  
+  /*.........................................................................*/
+
+  // κουμπί άνω μετακίνησης
+  let upBtn = document.createElement("button");
+  upBtn.textContent = "▲";
+
+  // όταν πατηθεί → μετακίνηση προς τα άνω
+  upBtn.onclick = function() {
+    moveUpReminder(index);
+  };
+  
+  /*.........................................................................*/
+
+
+  // κουμπί κάτω μετακίνησης
+  let downBtn = document.createElement("button");
+  downBtn.textContent = "▼";
+
+  // όταν πατηθεί → μετακίνηση προς τα κάτω
+  downBtn.onclick = function() {
+    moveDownReminder(index);
+  };
+  
+  /*.........................................................................*/
+
+ // Προσάρτηση της ετικέττας και των κουμπιών στο στοιχείο λίστας
+ item.appendChild(label);
+ item.appendChild(delBtn);
+ item.appendChild(editBtn);
+ item.appendChild(upBtn);
+ item.appendChild(downBtn);
+
+ // Προσάρτηση του στοιχείου λίστας στη λίστα
+ document.getElementById("list").appendChild(item);
+}
+
+
+function deleteReminder(index) {
+
+  // αφαιρούμε από τον πίνακα
+  reminders.splice(index, 1);
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+
+function editReminder(index) {
+
+  let newText = prompt("Τροποποίηση υπενθύμισης:", reminders[index]);
+
+  if (newText === null) return;       // ακύρωση
+  newText = newText.trim();
+  if (newText === "") return;
+
+  reminders[index] = newText;
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+
+function moveUpReminder(index) {
+
+  if (index === 0) return;      // Στο πρώτο στοιχείο σταμάτα
+  
+  [reminders[index - 1], reminders[index]] = [reminders[index], reminders[index - 1]];
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+
+function moveDownReminder(index) {
+
+  if (index === reminders.length - 1) return;   // Στο τελευταίο στοιχείο σταμάτα
+  
+  [reminders[index + 1], reminders[index]] = [reminders[index], reminders[index + 1]];
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+/* ==========================================
+   ΑΠΟΘΗΚΕΥΣΗ ΣΤΟ localStorage
+========================================== 
+
+function saveData() {          // Συνάρτηση αποθήκευσης δεδομένων
+
+  localStorage.setItem("myReminders", JSON.stringify(reminders));  // Μετατρ.πίν.σε κείμενο
+  
+}
+*/
+
+</script>
 
 </body>
 </html>
