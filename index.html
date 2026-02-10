@@ -18,29 +18,36 @@ body {
 input {
   font-size: 18px;
   padding: 10px;
-  width: 250px;
+  width: 100px;
 }
 
 button {
   font-size: 18px;
   padding: 10px;
-  /* margin-top: 10px; */
+  margin-top: 10px;     
 }
 
-/* Λίστα υπενθυμίσεων */
+
+<!-- Λίστα υπενθυμίσεων -->
 ul {
-  margin-top: 25px;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
+
 
 li {
   font-size: 18px;
-  margin: 5px;
+  margin: 5px 5px 5px 0;
   background: #eef;
   padding: 8px;
   border-radius: 5px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
 
 li button {
   width: 36px;
@@ -258,11 +265,15 @@ function showItem(text, index) {
   /*.........................................................................*/
 
  // Προσάρτηση της ετικέττας και των κουμπιών στο στοιχείο λίστας
+ let btnBox = document.createElement("div");
+
+ btnBox.appendChild(delBtn);
+ btnBox.appendChild(editBtn);
+ btnBox.appendChild(upBtn);
+ btnBox.appendChild(downBtn);
+
  item.appendChild(label);
- item.appendChild(delBtn);
- item.appendChild(editBtn);
- item.appendChild(upBtn);
- item.appendChild(downBtn);
+ item.appendChild(btnBox);
 
  // Προσάρτηση του στοιχείου λίστας στη λίστα
  document.getElementById("list").appendChild(item);
