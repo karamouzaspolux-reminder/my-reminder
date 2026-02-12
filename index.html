@@ -155,10 +155,17 @@ const CORRECT_PIN = "05031927";
 
 // ================= PIN CHECK =================
 
+//  ΤΑΞΙΝΟΜΙΣΗ ΚΑΤΑ ΑΛΦΑΒΗΤΙΚΗ ΣΕΙΡΑ
+function sortReminders() {
+  reminders.sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base" })
+  );
+}
+
 //  ΧΤΙΣΙΜΟ ΤΗΣ ΛΙΣΤΑΣ
 function loadNotes() {
+  sortReminders();   // ⭐ ΤΑΞΙΝΟΜΗΣΗ
   document.getElementById("list").innerHTML = "";
-
   reminders.forEach((text, i) => showItem(text, i));
 }
 
@@ -221,7 +228,7 @@ function addReminder() {
 
   if (text === "") return;    //  Αν είναι κενό, σταμάτα
 
-  reminders.push(text);      //  Προσθήκη της υπενθύμισης στον πίνακα
+  reminders.push(text);      //  Προσθήκη της υπενθύμισης στον πίνακα  
 
   localStorage.setItem("myReminders", JSON.stringify(reminders));  // Αποθήκευση σε μορφή κειμένου
 
@@ -316,7 +323,7 @@ function deleteReminder(index) {
   // αποθήκευση
   localStorage.setItem("myReminders",JSON.stringify(reminders)
   );
-
+  
   // ξαναχτίζουμε λίστα
   document.getElementById("list").innerHTML = "";
 
@@ -339,7 +346,7 @@ function editReminder(index) {
   // αποθήκευση
   localStorage.setItem("myReminders",JSON.stringify(reminders)
   );
-
+  
   // ξαναχτίζουμε λίστα
   document.getElementById("list").innerHTML = "";
 
