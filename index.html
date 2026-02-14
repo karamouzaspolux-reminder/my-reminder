@@ -2,6 +2,8 @@
 <html lang="el">
 
 <head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffffff">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -100,6 +102,9 @@ ul, li {
 
 </head>
 
+
+
+
 <body>
 
 <!-- ================= LOGIN SCREEN ================= -->
@@ -161,7 +166,8 @@ const CORRECT_PIN = "05031927";
 //  ΤΑΞΙΝΟΜΙΣΗ ΚΑΤΑ ΑΛΦΑΒΗΤΙΚΗ ΣΕΙΡΑ
 function sortReminders() {
   reminders.sort((a, b) =>
-    a.localeCompare(b, undefined, { sensitivity: "base" })
+    a.localeCompare(b, 'el', { sensitivity: "base" })
+  //a.localeCompare(b, 'en', { sensitivity: "base" })  
   );
 }
 
@@ -415,6 +421,12 @@ function saveData() {          // Συνάρτηση αποθήκευσης δε
 }
 */
 
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
 </script>
 
 </body>
