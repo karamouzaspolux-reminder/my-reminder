@@ -251,7 +251,15 @@ function showItem(text, index) {
 
   // span(ΕΤΙΚΕΤΤΑ) ΠΟΥ ΚΡΑΤΑ κείμενο
   let label = document.createElement("span"); // [ΚΕΙΜΕΝΟ] [Χ], span → το κείμενο, button → το Χ
-  label.textContent = text;
+  let firstLetter = text.charAt(0);
+  let restText = text.slice(1);
+
+  label.innerHTML =
+    '<span style="color:blue; font-weight:bold;">' +
+    firstLetter +
+    '</span>' +
+    restText;
+
   
   
   /*.........................................................................*/
