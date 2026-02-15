@@ -291,7 +291,8 @@ function showItem(text, index) {
     editReminder(index);
   };
   
-  /*.........................................................................*/
+  
+
 
   // κουμπί άνω μετακίνησης
   let upBtn = document.createElement("button");
@@ -301,9 +302,9 @@ function showItem(text, index) {
   upBtn.onclick = function() {
     moveUpReminder(index);
   };
-  
-  /*.........................................................................*/
 
+  
+  /*
 
   // κουμπί κάτω μετακίνησης
   let downBtn = document.createElement("button");
@@ -314,6 +315,8 @@ function showItem(text, index) {
     moveDownReminder(index);
   };
   
+*/
+
   /*.........................................................................*/
 
  // Προσάρτηση της ετικέττας και των κουμπιών στο στοιχείο λίστας
@@ -321,8 +324,8 @@ function showItem(text, index) {
 
  btnBox.appendChild(delBtn);
  btnBox.appendChild(editBtn);
- btnBox.appendChild(upBtn);
- btnBox.appendChild(downBtn);
+ btnBox.appendChild(upBtn);      
+ //btnBox.appendChild(downBtn);    ΑΦΑΙΡΕΣΗ ΚΟΥΜΠΙΟΥ ΚΑΤΩ ΜΕΤΑΚΙΝΗΣΗΣ
 
  item.appendChild(label);
  item.appendChild(btnBox);
@@ -409,6 +412,8 @@ function moveDownReminder(index) {
     showItem(text, i)
   );
 }
+
+
 
 /* ==========================================
    ΑΠΟΘΗΚΕΥΣΗ ΣΤΟ localStorage
