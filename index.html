@@ -414,6 +414,65 @@ function moveDownReminder(index) {
 }
 
 
+/* ==========================================
+   EXPORT ΔΕΔΟΜΕΝΩΝ
+========================================== */
+
+function exportData() {
+
+  let data = localStorage.getItem("myReminders");
+
+  if (!data) {
+    alert("Δεν υπάρχουν δεδομένα για εξαγωγή.");
+    return;
+  }
+
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "myReminder_backup.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+
+/* ==========================================
+   IMPORT ΔΕΔΟΜΕΝΩΝ
+========================================== */
+
+function importData(event) {
+
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    try {
+      const imported = JSON.parse(e.target.result);
+
+      localStorage.setItem("myReminders", JSON.stringify(imported));
+
+      reminders = imported;
+
+      loadNotes();
+
+      alert("Η εισαγωγή ολοκληρώθηκε επιτυχώς.");
+
+    } catch (err) {
+      alert("Το αρχείο δεν είναι έγκυρο.");
+    }
+
+  };
+
+  reader.readAsText(file);
+}
+
+
 
 /* ==========================================
    ΑΠΟΘΗΚΕΥΣΗ ΣΤΟ localStorage
