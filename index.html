@@ -147,12 +147,25 @@ ul, li {
 
       <!-- ===== BUTTON ===== -->
       <button onclick="addReminder()">+</button>
-  </div>    
+      
 
   <!-- ===== ΛΙΣΤΑ ===== -->
   <ul id="list"></ul>
-</div>
 
+
+<hr>
+
+<button onclick="exportData()">📤 Εξαγωγή</button>
+
+<button onclick="document.getElementById('importFile').click()">📥 Εισαγωγή</button>
+
+<input type="file"
+       id="importFile"
+       accept=".json"
+       style="display:none"
+       onchange="importData(event)">
+
+</div>
 <script>
 
 // ================= PIN CONSTANT =================
