@@ -1,156 +1,100 @@
-<!DOCTYPE html>     <!-- Δηλώνει στον browser ότι το έγγραφο είναι HTML5. -->
+<!DOCTYPE html>
+<html lang="el">
 
-<html>       <!-- Το ριζικό στοιχείο. Όλο το έγγραφο βρίσκεται μέσα σε αυτό. -->
-
-<head>       <!-- Το head περιέχει πληροφορίες για τη σελίδα, όχι περιεχόμενο που φαίνεται στον χρήστη. -->
-    <meta charset="UTF-8">     <!-- Δηλώνει χρήση UTF-8 κωδικοποίησης. Επιτρέπει ελληνικά, σύμβολα, νομίσματα κτλ. -->
-    <title>Mini Expenses - Step 1</title>    <!-- Ο τίτλος που εμφανίζεται στο tab του browser. -->
+<head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>My Organizer</title>
 
 <style>
 
-  /* =================================
-   Καθολικός κανόνας υπολογισμού κουτιού
-  ==================================== */
+/* ===== ΒΑΣΙΚΗ ΕΜΦΑΝΙΣΗ ===== */
 
-    
-
-
-  /* ===============================
-   Βασική μορφοποίηση σελίδας
-   ================================= */
-
-  body {
-    font-family: Arial, sans-serif;   /* Καθαρή γραμματοσειρά */
-    background-color: #f4f6f8;        /* Απαλό γκρι φόντο */
-    margin: 0;      /* Εξωτερικό περιθώριο: απόσταση του στοιχείου από τα άλλα στοιχεία */
-    padding: 0;     /* Εσωτερικό περιθώριο: κενός χώρος ανάμεσα στο περιεχόμενο και τα όρια του στοιχείου */
-  }  
-
-  /* ===============================
-   Πλαίσιο φόρμας (Card)
-   ================================= */
-
-  .section {
-      background-color: white;         /* Λευκό φόντο, δημιουργεί λευκό κουτί. */
-      
-      /* width: 100%;                Πάρε όλο το διαθέσιμο πλάτος του container σου (μόνο για κινητό)
-      width: 500px;                    /* Καθορισμός σταθερού πλάτους */
-      max-width: 95%;
-      /* margin: 40px auto;            40px πάνω-κάτω, auto αριστερά-δεξιά (οριζόντιο κεντράρισμα) */
-      margin: 10px 10px 10px 10px;     /* Πάνω  Δεξιά  Κάτω  Αριστερά  : αριστερή στοίχιση */
-      /* margin: 10px 0 0 10px;        Εναλλακτικός τρόπος για την αριστερή στοίχιση */
-      padding: 20px;                   /* Εσωτερικός χώρος, αέρας μέσα στο κουτί */
-      border: 1px solid #ccc;          /* Λεπτό γκρι περίγραμμα */
-      border-radius: 8px;              /* Ελαφρώς στρογγυλεμένες γωνίες */
-      /* Συνολικό πλάτος = 400 + 20 + 20 = 440. Το padding προστίθεται στο εξωτερικό μέγεθος, δεν μεγαλώνει το εσωτερικό κουτί. Μεγαλώνει το συνολικό ορατό μέγεθος. */
-  }
-
-   /* ===============================
-   Ευθυγράμμιση πεδίων φόρμας
-   ================================= */
-
-   /* Το flex προέρχεται από το flexible = ευέλικτο. Είναι σύστημα διάταξης (layout system), που επιτρέπει στα στοιχεία να τοποθετούνται ευέλικτα μέσα σε ένα κουτί. */ 
-
-  .form-row {
-      display: flex;              /* Βάζουμε label και input στην ίδια γραμμή, τα ευθυγραμμίζουμε. */
-      align-items: center;        /* Κατακόρυφη ευθυγράμμιση */
-      margin-bottom: 10px;        /* Απόσταση μεταξύ γραμμών */
-  }
-
-  .form-row label {
-      width: 105px;                /* Καθορισμός Σταθερού πλάτους για όλα τα labels */
-      font-weight: bold;          /* Λίγο πιο έντονα γράμματα */
-  }
-
-  .form-row input {
-      flex: 1;                    /* Το input καταλαμβάνει τον υπόλοιπο χώρο της γραμμής. */
-      padding: 6px;
-  }  
-
-
-  /* ===============================
-   Κεντράρισμα κουμπιών
-  ================================= */
-
-  .button-row {
-      display: flex;           /* Τα κουμπιά σε μία σειρά, ευθυγραμμισμένα */
-      justify-content: center; /* Οριζόντιο κεντράρισμα */
-      gap: 8px;                /* Απόσταση μεταξύ κουμπιών */
-      margin-top: 15px;
-  }
-
-
-   /* ===============================
-   Μορφοποίηση κουμπιών
-   ================================= */
-
-  .button-row button {
-      padding: 6px 12px;         /* Εσωτερικός χώρος */
-      border: 1px solid #bbb;
-      background-color: #f8f9fa;
-      border-radius: 4px;        /* Στρογγύλεμα των γωνιών των κουμπιών, όσο > αριθμός => > στρογγύλεμα.*/
-      cursor: pointer;           /* Δείχνει ότι είναι clickable */
-      font-size: 13px;
-  }
-
-  .button-row button:hover {    /* Όταν το ποντίκι πάει πάνω από το κουμπί→ άλλαξε το background.*/
-    background-color: #e2e6ea;  /* Αλλαγή χρώματος στο hover */
-  }
-
-
-  /* Wrapper για scroll σε κινητό */
-.table-wrapper {
-    overflow-x: auto;
+body {
+  font-family: Arial;
+  text-align: left;
+  margin: 40px 0 0 0;   /* <-- ΑΦΑΙΡΕΣΗ ΑΡΙΣΤΕΡΟΥ ΚΕΝΟΥ */
 }
 
-/* Μορφοποίηση πίνακα */
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 700px; /* κρατάει σωστό πλάτος σε desktop */
+input {
+  font-size: 18px;
+  padding: 10px;  
 }
 
-.data-table th,
-.data-table td {
-    border: 1px solid #ccc;
-    padding: 6px;
+#pinInput {
+  width: 100px;
 }
 
-/* Κεφαλίδες κεντραρισμένες */
-.data-table th {
-    background-color: #f0f0f0;
-    text-align: center;
+#reminderInput {
+  width: 250px;
 }
 
-/* Περιεχόμενα στο  κέντρο */
-.data-table td {
-    text-align: center;
+
+button {
+  font-size: 18px;
+  padding: 10px;
+  margin-top: 10px;     
 }
 
-/* Ποσά δεξιά */
-.data-table td.amount-cell {
-    text-align: right;
+
+<!-- Λίστα υπενθυμίσεων -->
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
 
-/* Προμηθευτές αριστερά */
-.data-table td.supplier-cell {
-    text-align: left;
+
+li {
+  font-size: 18px;
+  /* margin: 5px 5px 5px 0; */
+  background: #eef;
+  padding: 0px 0px;
+  border-radius: 5px;
+  margin: 5px 0;
+
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
 }
 
-.header-filter {
-    width: 18px;          /* μικρό */
-    padding: 0;
-    font-size: 11px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
+
+li button {
+  width: 25px;
+  height: 25px;
+
+  font-size: 14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin-left: 4px;
+  vertical-align: middle;
 }
 
-/* Για να μη μεγαλώνει η στήλη */
-.header-filter:focus {
-    width: auto;          /* ανοίγει μόνο όταν το πατήσεις */
-    background: white;
-    border: 1px solid #ccc;
+li span {
+  
+  line-height: 1;
+}
+
+
+li div {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+
+
+ul, li {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 
 
@@ -158,381 +102,454 @@
 
 </head>
 
-<body>                      <!-- Το body περιέχει Ο,ΤΙ φαίνεται στην οθόνη. -->
-
-<h1>Mini Expenses</h1>      <!-- Επικεφαλίδα επιπέδου 1. Είναι σημασιολογικό στοιχείο (semantic). -->
-
-<form>   <!-- Η φόρμα ομαδοποιεί πεδία εισαγωγής.  Δεν κάνει ακόμη τίποτα. Απλώς οργανώνει δεδομένα. -->
- 
-  <div class="section">
-    
-    <div class="form-row">    <!-- Το div είναι δομικό κουτί, για ομαδοποίηση στοιχείων. -->
-        <label>Date</label>  
-        <input type="date" id="date"> <!-- Πεδίο ημερομηνίας.Το type καθορίζει τη συμπεριφορά. -->
-    </div>
-
-    <div class="form-row">
-        <label>Document</label>
-        <input type="text" id="document" list="documentList">   <!-- ΠΕΔΙΟ ΛΙΣΤΑΣ ΤΙΜΩΝ -->
-        <datalist id="documentList">
-             <!-- Οι επιλογές θα μπαίνουν δυναμικά, βάζουμε μερικές τώρα. -->
-             <option value="ΑΠΟΔΕΙΞΗ">
-             <option value="ΤΙΜΟΛΟΓΙΟ">
-             <option value="ΑΝΕΥ">
-        </datalist>
-    </div>
-
-    <div class="form-row">
-        <label>Doc_Number</label>
-        <input type="text" id="doc_number">  <!-- Πεδίο κειμένου -->      
-    </div>
 
 
-    <div class="form-row">
-        <label>Payment</label>
-        <input type="text" id="payment" list="paymentList">   <!-- ΠΕΔΙΟ ΛΙΣΤΑΣ ΤΙΜΩΝ -->
-        <datalist id="paymentList">
-             <!-- Οι επιλογές θα μπαίνουν δυναμικά, βάζουμε μερικές τώρα. -->
-             <option value="Μετρητοίς">
-             <option value="Κάρτα">
-             <option value="E-banking">
-        </datalist>
-    </div>
+
+<body>
+
+<!-- ================= LOGIN SCREEN ================= -->
 
 
-    <div class="form-row">
-        <label>Supplier</label>
-        <input type="text" id="supplier">  <!-- Πεδίο κειμένου -->      
-    </div>
+<div id="login">
+  <!-- Περιοχή εισαγωγής PIN -->
 
-    <div class="form-row">
-        <label>Category</label>
-        <input type="text" id="category" list="categoryList">   <!-- ΠΕΔΙΟ ΛΙΣΤΑΣ ΤΙΜΩΝ -->
-        <datalist id="categoryList">
-             <!-- Οι επιλογές θα μπαίνουν δυναμικά, βάζουμε μερικές τώρα. -->
-             <option value="ΤΡΟΦΙΜΑ">
-             <option value="ΚΑΥΣΙΜΑ">
-             <option value="ΕΝΟΙΚΙΟ">
-        </datalist>
-    </div>
+  <h2>🔒 Βάλε PIN</h2>
 
-    <div class="form-row">
-        <label>Amount</label>
-        <input type="number" id="amount">        
-    </div>
-     
-    <div class="button-row">       
-        <button type="button" id="saveBtn">Save</button>
-        <button type="button" id="newBtn">New</button>
-        <button type="button" id="delBtn">Del</button>
-        <button type="button" id="previousBtn">Prev</button>   
-        <button type="button" id="nextBtn">Next</button>  
-        <button type="button" id="firstBtn">First</button>
-        <button type="button" id="lastBtn">Last</button> 
-        <button type="button" id="showAllBtn">All</button>
-    </div>
+  <div class="pin-row">
 
-    
-    
-    <div class="status-bar" id="statusBar"></div>
+    <input type="password"
+           id="pinInput"
+           placeholder="PIN"
+           inputmode="numeric"
+           maxlength="8">
+    <!-- Πεδίο PIN -->
+
+    <button onclick="checkPin()">Είσοδος</button>
+    <!-- Κλήση JavaScript ελέγχου PIN -->
 
   </div>
+</div>
 
-  <div id="resultsInfo" style="margin-bottom:8px; font-weight:bold;"></div>
 
-</form>
+<!--...................................................-->
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="app" style="display:none;">
+  <!-- Κύρια εφαρμογή — αρχικά κρυφή -->
+
+  <h2>Organizer — Υπενθυμίσεις</h2>
+
+  <div class="input-area">
+      <!-- ===== INPUT ===== -->
+      <input id="reminderInput" placeholder="Γράψε υπενθύμιση">
+
+
+      <!-- ===== BUTTON ===== -->
+      <button onclick="addReminder()">+</button>
+      
+
+  <!-- ===== ΛΙΣΤΑ ===== -->
+  <ul id="list"></ul>
+
 
 <hr>
 
+<button onclick="exportData()">📤 Εξαγωγή</button>
 
-<!-- <h3>Όλες οι Εγγραφές</h3> -->
-<div id="tableContainer"></div>
+<button onclick="document.getElementById('importFile').click()">📥 Εισαγωγή</button>
 
+<input type="file"
+       id="importFile"
+       accept=".json"
+       style="display:none"
+       onchange="importData(event)">
+
+<hr>
+
+<h3>Εισαγωγή από επικόλληση</h3>
+
+<textarea id="pasteArea"
+          placeholder="Κάνε εδώ επικόλληση το JSON..."
+          style="width:100%; height:120px;"></textarea>
+
+<br>
+
+<button onclick="importFromPaste()">Επικόλληση & Εισαγωγή</button>
+
+
+</div>
 <script>
-let records = [];
-let currentIndex = -1;
-let selectedCategory = "all";   
-let selectedSupplier = "all";  // ..a.....
-let selectedPayment = "all";  // ..a1.....
 
-const STORAGE_KEY = "miniExpensesRecords";
-let savedData = localStorage.getItem(STORAGE_KEY);
+// ================= PIN CONSTANT =================
+const CORRECT_PIN = "05031927";
+// Σταθερά PIN
+// VBA: Const CORRECT_PIN = "05031927"
 
-if (savedData) {
-    records = JSON.parse(savedData);
-    currentIndex = records.length - 1;
-    if (records.length > 0) displayRecord();
+
+// ================= PIN CHECK =================
+
+//  ΤΑΞΙΝΟΜΙΣΗ ΚΑΤΑ ΑΛΦΑΒΗΤΙΚΗ ΣΕΙΡΑ
+function sortReminders() {
+  reminders.sort((a, b) =>
+    a.localeCompare(b, 'el', { sensitivity: "base" })
+  //a.localeCompare(b, 'en', { sensitivity: "base" })  
+  );
 }
 
-// ================= SAVE =================
-document.getElementById("saveBtn").addEventListener("click", function () {
-
-    let categoryValue = document.getElementById("category").value.trim();
-    let dataList1 = document.getElementById("categoryList");
-
-    let exists = false;
-    for (let option of dataList1.options) {
-        if (option.value === categoryValue) {
-            exists = true;
-            break;
-        }
-    }
-
-    if (!exists && categoryValue !== "") {
-        let newOption = document.createElement("option");
-        newOption.value = categoryValue;
-        dataList1.appendChild(newOption);
-    }
-
-    let record = {
-        date: document.getElementById("date").value,
-        document: document.getElementById("document").value,
-        doc_number: document.getElementById("doc_number").value,
-        payment: document.getElementById("payment").value,
-        supplier: document.getElementById("supplier").value,
-        category: categoryValue,
-        amount: parseFloat(document.getElementById("amount").value)
-    };
-
-    if (currentIndex === -1) {
-        records.push(record);
-        currentIndex = records.length - 1;
-    } else {
-        records[currentIndex] = record;
-    }
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-    displayRecord();
-    renderTable(records);
-});
-
-// ================= NEW =================
-document.getElementById("newBtn").addEventListener("click", function () {
-    currentIndex = -1;
-    document.querySelectorAll("input").forEach(i => i.value = "");
-});
-
-// ================= DELETE =================
-document.getElementById("delBtn").addEventListener("click", function () {
-
-    if (currentIndex === -1) return;
-
-    records.splice(currentIndex, 1);
-
-    if (currentIndex >= records.length)
-        currentIndex = records.length - 1;
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-
-    if (records.length > 0) displayRecord();
-    else document.querySelectorAll("input").forEach(i => i.value = "");
-
-    renderTable(records);
-});
-
-// ================= NAVIGATION =================
-document.getElementById("previousBtn").onclick = () => {
-    if (currentIndex > 0) {
-        currentIndex--;
-        displayRecord();
-    }
-};
-
-document.getElementById("nextBtn").onclick = () => {
-    if (currentIndex < records.length - 1) {
-        currentIndex++;
-        displayRecord();
-    }
-};
-
-document.getElementById("firstBtn").onclick = () => {
-    if (records.length > 0) {
-        currentIndex = 0;
-        displayRecord();
-    }
-};
-
-document.getElementById("lastBtn").onclick = () => {
-    if (records.length > 0) {
-        currentIndex = records.length - 1;
-        displayRecord();
-    }
-};
-
-// ================= DISPLAY =================
-function displayRecord() {
-
-    if (currentIndex < 0 || currentIndex >= records.length) return;
-
-    let record = records[currentIndex];
-
-    document.getElementById("date").value = record.date;
-    document.getElementById("document").value = record.document;
-    document.getElementById("doc_number").value = record.doc_number;
-    document.getElementById("payment").value = record.payment;
-    document.getElementById("supplier").value = record.supplier;
-    document.getElementById("category").value = record.category;
-    document.getElementById("amount").value = record.amount;
+//  ΧΤΙΣΙΜΟ ΤΗΣ ΛΙΣΤΑΣ
+function loadNotes() {
+  sortReminders();   // ⭐ ΤΑΞΙΝΟΜΗΣΗ
+  document.getElementById("list").innerHTML = "";
+  reminders.forEach((text, i) => showItem(text, i));
 }
 
-// ================= SHOW TABLE =================
-document.getElementById("showAllBtn").addEventListener("click", function () {
-    selectedCategory = "all";
-    selectedSupplier = "all";   //  ......b...........
-    selectedPayment = "all";   //  ......b1...........
-    renderTable(records);
-});
+function checkPin() {
+  const input = document.getElementById("pinInput").value;
+  // Διαβάζει τιμή από input
+  // VBA: input = Me.txtPIN.Value
 
-// ================= RENDER TABLE =================
-function renderTable(dataArray) {
+  if (input === CORRECT_PIN) {
+    document.getElementById("login").style.display = "none";
+    // Απόκρυψη login panel
+    // VBA: Me.pnlLogin.Visible = False
 
-    let container = document.getElementById("tableContainer");
+    document.getElementById("app").style.display = "block";
+    // Εμφάνιση κύριας εφαρμογής
+    // VBA: Me.pnlApp.Visible = True
 
-    if (dataArray.length === 0) {
-        container.innerHTML = "<p>Δεν υπάρχουν εγγραφές.</p>";
-        return;
-    }
+    loadNotes();
+    // Refresh δεδομένων
+    // VBA: Me.Requery
+  } else {
+    alert("Λάθος PIN");
+    // VBA: MsgBox "Λάθος PIN"
+  }
+}
 
-    let html = "<div class='table-wrapper'><table class='data-table'>";
 
-    html += "<tr>";
-    html += "<th>Date</th>";
-    html += "<th>Document</th>";
-    html += "<th>Doc_Number</th>";
-    // html += "<th>Payment</th>";
-    // html += "<th>Supplier</th>";
 
-    html += "<th style='white-space:nowrap;'>Payment <select id='paymentHeaderFilter' class='header-filter'></select></th>";    //  ........c1..........
+/* ==========================================
+   ΛΙΣΤΑ ΥΠΕΝΘΥΜΙΣΕΩΝ ΣΤΗ ΜΝΗΜΗ
+========================================== */
+
+let reminders = [];    // Δημιουργία πίνακα, αρχικά άδειο
+
+
+/* ==========================================
+   ΦΟΡΤΩΣΗ ΑΠΟ localStorage ΟΤΑΝ ΑΝΟΙΓΕΙ Η ΣΕΛΙΔΑ
+========================================== */
+
+window.onload = function() {    // Συνάρτηση που εκτελείται με το άνοιγμα της σελίδας
+
+  let saved = localStorage.getItem("myReminders");  //Οι αποθηκευμένες υπενθυμήσεις
+
+  if (saved) {                         // Εάν υπάρχουν
+
+    reminders = JSON.parse(saved);    //  Μετατροπή των δεδομένων σε πίνακα
+
     
-    html += "<th style='white-space:nowrap;'>Supplier <select id='supplierHeaderFilter' class='header-filter'></select></th>";    //  ........c..........
+  }
+};
+
+
+/* ==========================================
+   ΠΡΟΣΘΗΚΗ ΥΠΕΝΘΥΜΙΣΗΣ
+========================================== */
+
+function addReminder() {
+
+  let text = document.getElementById("reminderInput").value;  // Τι γράψαμε
+
+  if (text === "") return;    //  Αν είναι κενό, σταμάτα
+
+  reminders.push(text);      //  Προσθήκη της υπενθύμισης στον πίνακα  
+
+  localStorage.setItem("myReminders", JSON.stringify(reminders));  // Αποθήκευση σε μορφή κειμένου
+
+  showItem(text, reminders.length - 1);     //  Εμφάνιση του νέου στοιχείου στη σελίδα
+
+  document.getElementById("reminderInput").value = "";   //  Καθαρισμός input
+}
+
+
+/* ==========================================
+   ΕΜΦΑΝΙΣΗ ΣΤΗ ΛΙΣΤΑ
+========================================== */
+
+function showItem(text, index) {
+
+  let item = document.createElement("li");
+
+  // span(ΕΤΙΚΕΤΤΑ) ΠΟΥ ΚΡΑΤΑ κείμενο
+  let label = document.createElement("span"); // [ΚΕΙΜΕΝΟ] [Χ], span → το κείμενο, button → το Χ
+  let firstLetter = text.charAt(0);
+  let restText = text.slice(1);
+
+  label.innerHTML =
+    '<span style="color:blue; font-weight:bold;">' +
+    firstLetter +
+    '</span>' +
+    restText;
+
+  
+  
+  /*.........................................................................*/
    
-    html += "<th style='white-space:nowrap;'>Category <select id='categoryHeaderFilter' class='header-filter'></select></th>";
+  // κουμπί Χ
+  let delBtn = document.createElement("button");
+  delBtn.textContent = "X";
 
-     
-    
-    html += "<th>Amount</th>";
-    html += "</tr>";
+  // όταν πατηθεί → διαγραφή
+  delBtn.onclick = function() {
+    deleteReminder(index);
+  };
+  
+  
+  /*.........................................................................*/
+   
+  // κουμπί Επεξεργασίας
+  let editBtn = document.createElement("button");
+  editBtn.textContent = "✏️";
 
-    let total = 0;
-
-    for (let record of dataArray) {
-
-        if (selectedCategory !== "all" && record.category !== selectedCategory)
-            continue;
-
-        if (selectedSupplier !== "all" && record.supplier !== selectedSupplier) // ..d......
-            continue;
-        if (selectedPayment !== "all" && record.payment !== selectedPayment) // ..d1......
-            continue;
-
-
-        html += "<tr>";
-        html += "<td>" + record.date + "</td>";
-        html += "<td>" + record.document + "</td>";
-        html += "<td>" + record.doc_number + "</td>";
-        html += "<td>" + record.payment + "</td>";
-        html += "<td class='supplier-cell'>" + record.supplier + "</td>";
-        html += "<td>" + record.category + "</td>";
-        html += "<td class='amount-cell'>" + record.amount + "</td>";
-        html += "</tr>";
-
-        total += Number(record.amount) || 0;
-    }
-
-    html += "<tr>";
-    html += "<td colspan='6' style='text-align:right;font-weight:bold;'>Total</td>";
-    html += "<td class='amount-cell' style='font-weight:bold;'>" + total.toFixed(2) + "</td>";
-    html += "</tr>";
-
-    html += "</table></div>";
-
-    container.innerHTML = html;
-
-    // ===== Header Filter =====
-    let select_1 = document.getElementById("categoryHeaderFilter");
-    let select_2 = document.getElementById("supplierHeaderFilter");   //....e......
-    let select_3 = document.getElementById("paymentHeaderFilter");   //....e1......
-
-    select_1.innerHTML = "<option value='all'>Όλες</option>";
-    select_2.innerHTML = "<option value='all'>Όλες</option>";     //......f......
-    select_3.innerHTML = "<option value='all'>Όλες</option>";     //......f1......
-
-    let categories = [...new Set(records.map(r => r.category))];
-    categories.sort();
-
-    let suppliers = [...new Set(records.map(r => r.supplier))];  // .......g........
-    suppliers.sort();
-    let payments = [...new Set(records.map(r => r.payment))];  // .......g1........
-    payments.sort();
-
-    for (let cat of categories) {
-        let option = document.createElement("option");
-        option.value = cat;
-        option.textContent = cat;
-        select_1.appendChild(option);
-    }
-
-    for (let cat of suppliers) {                        //......h........
-        let option = document.createElement("option");
-        option.value = cat;
-        option.textContent = cat;
-        select_2.appendChild(option);
-    }
-
-    for (let cat of payments) {                        //......h1........
-        let option = document.createElement("option");
-        option.value = cat;
-        option.textContent = cat;
-        select_3.appendChild(option);
-    }
-
-    select_1.value = selectedCategory;
-    select_2.value = selectedSupplier;               //.....i.......
-    select_3.value = selectedPayment;                //.....i1.......
+  // όταν πατηθεί → επεξεργασία
+  editBtn.onclick = function() {
+    editReminder(index);
+  };
+  
+  
 
 
-    select_1.onchange = function () {
-        selectedCategory = this.value;
-        renderTable(records);
-    };
+  // κουμπί άνω μετακίνησης
+  let upBtn = document.createElement("button");
+  upBtn.textContent = "▲";
 
-    select_2.onchange = function () {              //........k.........
-        selectedSupplier = this.value;
-        renderTable(records);
-    };
+  // όταν πατηθεί → μετακίνηση προς τα άνω
+  upBtn.onclick = function() {
+    moveUpReminder(index);
+  };
 
-    select_3.onchange = function () {              //........k1.........
-        selectedPayment = this.value;
-        renderTable(records);
-    };
+  
+  /*
 
+  // κουμπί κάτω μετακίνησης
+  let downBtn = document.createElement("button");
+  downBtn.textContent = "▼";
 
-    // ΤΙΤΛΟΣ ΠΙΝΑΚΑ ΑΝΑΛΟΓΑ ΜΕ ΤΑ ΦΙΛΤΡΑΡΙΣΜΑΤΑ
-    let activeFilters = [];
+  // όταν πατηθεί → μετακίνηση προς τα κάτω
+  downBtn.onclick = function() {
+    moveDownReminder(index);
+  };
+  
+*/
 
-    if (selectedCategory !== "all")
-        activeFilters.push("Κατηγορία: " + selectedCategory);
+  /*.........................................................................*/
 
-    if (selectedSupplier !== "all")
-        activeFilters.push("Προμηθευτής: " + selectedSupplier);
+ // Προσάρτηση της ετικέττας και των κουμπιών στο στοιχείο λίστας
+ let btnBox = document.createElement("div");
 
-    if (selectedPayment !== "all")
-        activeFilters.push("Τρόπος Πληρωμής: " + selectedPayment);
+ btnBox.appendChild(delBtn);
+ btnBox.appendChild(editBtn);
+ btnBox.appendChild(upBtn);      
+ //btnBox.appendChild(downBtn);    ΑΦΑΙΡΕΣΗ ΚΟΥΜΠΙΟΥ ΚΑΤΩ ΜΕΤΑΚΙΝΗΣΗΣ
 
-    let filterText = "";
+ item.appendChild(label);
+ item.appendChild(btnBox);
 
-    if (activeFilters.length > 0)
-        filterText = "Φιλτραρισμένες εγγραφές κατά " + activeFilters.join(" και ");
-    else
-        filterText = "Όλες οι εγγραφές";
-
-    document.getElementById("resultsInfo").innerText = filterText;
-
+ // Προσάρτηση του στοιχείου λίστας στη λίστα
+ document.getElementById("list").appendChild(item);
 }
 
+
+function deleteReminder(index) {
+
+  // αφαιρούμε από τον πίνακα
+  reminders.splice(index, 1);
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+  
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+
+function editReminder(index) {
+
+  let newText = prompt("Τροποποίηση υπενθύμισης:", reminders[index]);
+
+  if (newText === null) return;       // ακύρωση
+  newText = newText.trim();
+  if (newText === "") return;
+
+  reminders[index] = newText;
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+  
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+
+function moveUpReminder(index) {
+
+  if (index === 0) return;      // Στο πρώτο στοιχείο σταμάτα
+  
+  [reminders[index - 1], reminders[index]] = [reminders[index], reminders[index - 1]];
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+
+function moveDownReminder(index) {
+
+  if (index === reminders.length - 1) return;   // Στο τελευταίο στοιχείο σταμάτα
+  
+  [reminders[index + 1], reminders[index]] = [reminders[index], reminders[index + 1]];
+
+  // αποθήκευση
+  localStorage.setItem("myReminders",JSON.stringify(reminders)
+  );
+
+  // ξαναχτίζουμε λίστα
+  document.getElementById("list").innerHTML = "";
+
+  reminders.forEach((text, i) =>
+    showItem(text, i)
+  );
+}
+
+
+/* ==========================================
+   EXPORT ΔΕΔΟΜΕΝΩΝ
+========================================== */
+
+function exportData() {
+
+  let data = localStorage.getItem("myReminders");
+
+  if (!data) {
+    alert("Δεν υπάρχουν δεδομένα για εξαγωγή.");
+    return;
+  }
+
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "myReminder_backup.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+
+/* ==========================================
+   IMPORT ΔΕΔΟΜΕΝΩΝ
+========================================== */
+
+function importData(event) {
+
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    try {
+      const imported = JSON.parse(e.target.result);
+
+      localStorage.setItem("myReminders", JSON.stringify(imported));
+
+      reminders = imported;
+
+      loadNotes();
+
+      alert("Η εισαγωγή ολοκληρώθηκε επιτυχώς.");
+
+    } catch (err) {
+      alert("Το αρχείο δεν είναι έγκυρο.");
+    }
+
+  };
+
+  reader.readAsText(file);
+}
+
+
+/* ==========================================
+   IMPORT ΑΠΟ ΕΠΙΚΟΛΛΗΣΗ
+========================================== */
+
+function importFromPaste() {
+
+  const text = document.getElementById("pasteArea").value;
+
+  if (!text.trim()) {
+    alert("Δεν υπάρχει κείμενο για εισαγωγή.");
+    return;
+  }
+
+  try {
+    const imported = JSON.parse(text);
+
+    localStorage.setItem("myReminders", JSON.stringify(imported));
+
+    reminders = imported;
+
+    loadNotes();
+
+    alert("Η εισαγωγή ολοκληρώθηκε επιτυχώς.");
+
+    document.getElementById("pasteArea").value = "";
+
+  } catch (err) {
+    alert("Το κείμενο δεν είναι έγκυρο JSON.");
+  }
+}
+
+
+
+/* ==========================================
+   ΑΠΟΘΗΚΕΥΣΗ ΣΤΟ localStorage
+========================================== 
+
+function saveData() {          // Συνάρτηση αποθήκευσης δεδομένων
+
+  localStorage.setItem("myReminders", JSON.stringify(reminders));  // Μετατρ.πίν.σε κείμενο
+  
+}
+*/
 
 </script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
 
 </body>
 </html>
