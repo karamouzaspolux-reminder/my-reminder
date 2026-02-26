@@ -26,7 +26,9 @@ input {
 }
 
 #pinInput {
-  width: 100px;
+  width: 160px;
+  font-size: 20px;
+  text-align: center;
 }
 
 #reminderInput {
@@ -118,11 +120,19 @@ ul, li {
   <div class="pin-row">
 
     <input type="password"
-           id="pinInput"
-           placeholder="PIN"
-           inputmode="numeric"
-           maxlength="8">
-    <!-- Πεδίο PIN -->
+       id="pinInput"
+       placeholder="PIN"
+       inputmode="numeric"
+       maxlength="8">
+       <!-- Πεδίο PIN -->
+
+<input type="password"
+       id="pinConfirm"
+       placeholder="Επιβεβαίωση PIN"
+       inputmode="numeric"
+       maxlength="8"
+       style="display:none;">
+    
 
     <button onclick="checkPin()">Είσοδος</button>
     <!-- Κλήση JavaScript ελέγχου PIN -->
@@ -182,10 +192,14 @@ ul, li {
 <script>
 
 // ================= PIN CONSTANT =================
-const CORRECT_PIN = "05031927";
+// const CORRECT_PIN = "05031927";
 // Σταθερά PIN
 // VBA: Const CORRECT_PIN = "05031927"
 
+let savedPin;
+if (!savedPin) {
+  document.getElementById("pinConfirm").style.display = "inline-block";
+}
 
 // ================= PIN CHECK =================
 
@@ -205,28 +219,43 @@ function loadNotes() {
 }
 
 function checkPin() {
+
   const input = document.getElementById("pinInput").value;
-  // Διαβάζει τιμή από input
-  // VBA: input = Me.txtPIN.Value
+  const confirmInput = document.getElementById("pinConfirm").value;
 
-  if (input === CORRECT_PIN) {
+  // ΠΡΩΤΗ ΧΡΗΣΗ
+  if (!savedPin) {
+
+    if (input.length < 4) {
+      alert("Το PIN πρέπει να έχει τουλάχιστον 4 ψηφία.");
+      return;
+    }
+
+    if (input !== confirmInput) {
+      alert("Τα PIN δεν ταιριάζουν.");
+      return;
+    }
+
+    localStorage.setItem("appPin", input);
+    savedPin = input;
+
+    alert("Το PIN αποθηκεύτηκε επιτυχώς.");
+
+    document.getElementById("pinConfirm").style.display = "none";
+  }
+
+  // ΕΛΕΓΧΟΣ ΕΙΣΟΔΟΥ
+  if (input === savedPin) {
+
     document.getElementById("login").style.display = "none";
-    // Απόκρυψη login panel
-    // VBA: Me.pnlLogin.Visible = False
-
     document.getElementById("app").style.display = "block";
-    // Εμφάνιση κύριας εφαρμογής
-    // VBA: Me.pnlApp.Visible = True
 
     loadNotes();
-    // Refresh δεδομένων
-    // VBA: Me.Requery
+
   } else {
     alert("Λάθος PIN");
-    // VBA: MsgBox "Λάθος PIN"
   }
 }
-
 
 
 /* ==========================================
@@ -240,15 +269,21 @@ let reminders = [];    // Δημιουργία πίνακα, αρχικά άδε
    ΦΟΡΤΩΣΗ ΑΠΟ localStorage ΟΤΑΝ ΑΝΟΙΓΕΙ Η ΣΕΛΙΔΑ
 ========================================== */
 
-window.onload = function() {    // Συνάρτηση που εκτελείται με το άνοιγμα της σελίδας
+window.onload = function() {
 
-  let saved = localStorage.getItem("myReminders");  //Οι αποθηκευμένες υπενθυμήσεις
+  let saved = localStorage.getItem("myReminders");
+  if (saved) {
+    reminders = JSON.parse(saved);
+  }
 
-  if (saved) {                         // Εάν υπάρχουν
+  savedPin = localStorage.getItem("appPin");
 
-    reminders = JSON.parse(saved);    //  Μετατροπή των δεδομένων σε πίνακα
-
-    
+  if (!savedPin) {
+    document.getElementById("pinConfirm").style.display = "inline-block";
+    document.querySelector("h2").textContent = "🔐 Ορισμός PIN";
+  } else {
+    document.getElementById("pinConfirm").style.display = "none";
+    document.querySelector("h2").textContent = "🔒 Βάλε PIN";
   }
 };
 
